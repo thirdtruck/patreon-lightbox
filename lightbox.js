@@ -13,9 +13,13 @@ function setTitle(title) {
   lightboxImageTitleEl.innerText = title
 }
 
+function createImage(imageURL) {
+  lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
+}
+
 function onLoadImageInfo(imageTitle, imageURL) {
 	setTitle(imageTitle)
-  lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
+	createImage(imageURL)
 }
 
 function fetchImage() {
