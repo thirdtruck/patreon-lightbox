@@ -9,8 +9,12 @@ const nextButton = document.getElementById('next')
 
 let offset = 0
 
+function setTitle(title) {
+  lightboxImageTitleEl.innerText = title
+}
+
 function onLoadImageInfo(imageTitle, imageURL) {
-  lightboxImageTitleEl.innerText = imageTitle
+	setTitle(imageTitle)
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
 }
 
