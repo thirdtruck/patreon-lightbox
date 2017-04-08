@@ -47,20 +47,20 @@ function onClickImage(evt) {
 }
 
 function nextImage() {
-	offset += 1
+  offset += 1
 
-	fetchImage()
+  fetchImage()
 }
 
 function prevImage() {
-	offset -= 1
+  offset -= 1
 
-	// Don't fetch the image unless we're actually fetching a new one
-	if (offset < 0) {
-		offset = 0
-	} else {
-		fetchImage()
-	}
+  // Don't fetch the image unless we're actually fetching a new one
+  if (offset < 0) {
+    offset = 0
+  } else {
+    fetchImage()
+  }
 }
 
 lightboxImageEl.onclick = onClickImage
