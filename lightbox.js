@@ -54,9 +54,9 @@ class LightboxGallery {
     this.offset = 0;
     this.elements = elements;
 
-    this.elements.lightboxImageEl.onclick = () => { this.onClickImage() };
-    this.elements.prevButton.onclick = () => { this.prevImage() };
-    this.elements.nextButton.onclick = () => { this.nextImage() };
+    this.elements.lightboxImageEl.onclick = () => { this.onClickImage(); };
+    this.elements.prevButton.onclick = () => { this.prevImage(); };
+    this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
 
   fetchImage() {
