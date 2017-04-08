@@ -2,8 +2,7 @@ body {
   background-color: #222;
 }
 
-#lightbox
-{
+#lightbox {
   position: absolute;
   margin: auto;
   top: 0;
