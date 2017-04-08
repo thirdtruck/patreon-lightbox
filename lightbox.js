@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 const PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC'
 const GIPHY_PARAMS = 'limit=1&rating=g&fmt=json'
 const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUBLIC_BETA_KEY}&${GIPHY_PARAMS}`
