@@ -23,17 +23,12 @@ function titleFromSlug(slug) {
   return words.join(' ')
 }
 
-function setTitle(slug) {
-  lightboxImageTitleEl.innerText = titleFromSlug(slug)
+function setTitle(title) {
+  lightboxImageTitleEl.innerText = title
 }
 
 function createImage(imageURL) {
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
-}
-
-function onLoadImageInfo(imageSlug, imageURL) {
-	setTitle(imageSlug)
-	createImage(imageURL)
 }
 
 function fetchImage() {
@@ -49,9 +44,11 @@ function fetchImage() {
         console.log('image data', imageData)
 
         const imageSlug = imageData['slug']
+				const imageTitle = titleFromSlug(imageSlug)
         const imageURL = imageData['images']['fixed_width']['url']
 
-        onLoadImageInfo(imageSlug, imageURL)
+				setTitle(imageTitle)
+				createImage(imageURL)
       } else {
         console.log('Error', httpRequest.readyState)
       }
