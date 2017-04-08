@@ -10,7 +10,7 @@ const nextButton = document.getElementById('next')
 let offset = 0
 
 function titleFromSlug(slug) {
-	words = slug.split('-')
+	let words = slug.split('-')
 
 	// In case the slug has no tags in it
 	if (words.length === 1) {
