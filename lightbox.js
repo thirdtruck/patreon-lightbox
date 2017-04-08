@@ -44,4 +44,4 @@ function onClickImage(evt) {
 
 lightboxImageEl.onclick = onClickImage
 
-fetchImage()
+document.addEventListener("DOMContentLoaded", () => { fetchImage() })
