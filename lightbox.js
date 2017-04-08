@@ -9,16 +9,30 @@ const nextButton = document.getElementById('next')
 
 let offset = 0
 
-function setTitle(title) {
-  lightboxImageTitleEl.innerText = title
+function titleFromSlug(slug) {
+	words = slug.split('-')
+
+	// In case the slug has no tags in it
+	if (words.length === 1) {
+		return words[0]
+	}
+
+	words.pop() // Cut off the randomized trailing section
+	words = words.map((word) => { return word[0].toUpperCase() + word.slice(1) }) // Capitalize each word
+
+  return words.join(' ')
+}
+
+function setTitle(slug) {
+  lightboxImageTitleEl.innerText = titleFromSlug(slug)
 }
 
 function createImage(imageURL) {
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
 }
 
-function onLoadImageInfo(imageTitle, imageURL) {
-	setTitle(imageTitle)
+function onLoadImageInfo(imageSlug, imageURL) {
+	setTitle(imageSlug)
 	createImage(imageURL)
 }
 
@@ -34,10 +48,10 @@ function fetchImage() {
 
         console.log('image data', imageData)
 
-        const imageTitle = imageData['slug']
+        const imageSlug = imageData['slug']
         const imageURL = imageData['images']['fixed_width']['url']
 
-        onLoadImageInfo(imageTitle, imageURL)
+        onLoadImageInfo(imageSlug, imageURL)
       } else {
         console.log('Error', httpRequest.readyState)
       }
