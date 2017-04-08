@@ -5,33 +5,43 @@ const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUB
 const lightboxImageEl = document.getElementById('image')
 const lightboxImageTitleEl = document.getElementById('title')
 
-const httpRequest = new XMLHttpRequest()
-
 function onLoadImageInfo(imageTitle, imageURL) {
   lightboxImageTitleEl.innerText = imageTitle
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
 }
 
-httpRequest.onreadystatechange = (result) => {
-  if (httpRequest.readyState === XMLHttpRequest.DONE) {
-    if (httpRequest.status === 200) {
-      console.log('Success', httpRequest.responseText)
+function fetchImage() {
+  const httpRequest = new XMLHttpRequest()
 
-      const imageData = JSON.parse(httpRequest.responseText)['data'][0]
+  httpRequest.onreadystatechange = (result) => {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        console.log('Success', httpRequest.responseText)
 
-      console.log('image data', imageData)
+        const imageData = JSON.parse(httpRequest.responseText)['data'][0]
 
-      const imageTitle = imageData['slug']
-      const imageURL = imageData['images']['fixed_height']['url']
+        console.log('image data', imageData)
 
-      onLoadImageInfo(imageTitle, imageURL)
+        const imageTitle = imageData['slug']
+        const imageURL = imageData['images']['fixed_height']['url']
+
+        onLoadImageInfo(imageTitle, imageURL)
+      } else {
+        console.log('Error', httpRequest.readyState)
+      }
     } else {
-      console.log('Error', httpRequest.readyState)
+      console.log('Loading ...')
     }
-  } else {
-    console.log('Loading ...')
   }
+
+  httpRequest.open('GET', GIPHY_URL)
+  httpRequest.send()
 }
 
-httpRequest.open('GET', GIPHY_URL)
-httpRequest.send()
+function onClickImage(evt) {
+  fetchImage()
+}
+
+lightboxImageEl.onclick = onClickImage
+
+fetchImage()
