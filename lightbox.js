@@ -6,13 +6,21 @@ const lightboxImageEl = document.getElementById('image')
 
 const httpRequest = new XMLHttpRequest()
 
+function onLoadImageInfo(imageURL) {
+  lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
+}
+
 httpRequest.onreadystatechange = (result) => {
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
     if (httpRequest.status === 200) {
       console.log('Success', httpRequest.responseText)
+
       const imageData = JSON.parse(httpRequest.responseText)['data'][0]
+
       console.log('image data', imageData)
-      lightboxImageEl.innerHTML = `<img src="${imageData['images']['fixed_height']['url']}" />`
+
+      const imageURL = imageData['images']['fixed_height']['url']
+      onLoadImageInfo(imageURL)
     } else {
       console.log('Error', httpRequest.readyState)
     }
