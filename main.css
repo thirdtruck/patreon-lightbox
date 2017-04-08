@@ -14,3 +14,15 @@ body {
   text-align: center;
   background-color: #ccc;
 }
+
+#prev {
+  float: right;
+}
+
+#prev {
+  float: left;
+}
+
+#image {
+  float: left;
+}
