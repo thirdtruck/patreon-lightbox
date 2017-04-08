@@ -10,6 +10,13 @@ const nextButton = document.getElementById('next');
 
 let offset = 0;
 
+class LightboxGallery {
+	constructor(imageSource) {
+		this.imageSource = imageSource
+		this.offset = 0
+	}
+}
+
 function titleFromSlug(slug) {
 	let words = slug.split('-');
 
