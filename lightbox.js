@@ -3,10 +3,12 @@ const GIPHY_PARAMS = 'limit=1&rating=g&fmt=json'
 const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUBLIC_BETA_KEY}&${GIPHY_PARAMS}`
 
 const lightboxImageEl = document.getElementById('image')
+const lightboxImageTitleEl = document.getElementById('title')
 
 const httpRequest = new XMLHttpRequest()
 
-function onLoadImageInfo(imageURL) {
+function onLoadImageInfo(imageTitle, imageURL) {
+  lightboxImageTitleEl.innerText = imageTitle
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
 }
 
@@ -19,8 +21,10 @@ httpRequest.onreadystatechange = (result) => {
 
       console.log('image data', imageData)
 
+      const imageTitle = imageData['slug']
       const imageURL = imageData['images']['fixed_height']['url']
-      onLoadImageInfo(imageURL)
+
+      onLoadImageInfo(imageTitle, imageURL)
     } else {
       console.log('Error', httpRequest.readyState)
     }
