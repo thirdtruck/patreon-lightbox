@@ -5,6 +5,8 @@ const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUB
 const lightboxImageEl = document.getElementById('image')
 const lightboxImageTitleEl = document.getElementById('title')
 
+let offset = 0
+
 function onLoadImageInfo(imageTitle, imageURL) {
   lightboxImageTitleEl.innerText = imageTitle
   lightboxImageEl.innerHTML = `<img src="${imageURL}" />`
@@ -34,8 +36,10 @@ function fetchImage() {
     }
   }
 
-  httpRequest.open('GET', GIPHY_URL)
+  httpRequest.open('GET', `${GIPHY_URL}&offset=${offset}`)
   httpRequest.send()
+
+	offset += 1
 }
 
 function onClickImage(evt) {
