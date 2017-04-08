@@ -96,14 +96,12 @@ class LightboxGallery {
   }
 }
 
-const elements = {
+const imageSource = new GiphyImageSource(GIPHY_PUBLIC_BETA_KEY);
+const lightboxGallery = new LightboxGallery(imageSource, {
   lightboxImageEl: document.getElementById('image'),
   lightboxImageTitleEl: document.getElementById('title'),
   prevButton: document.getElementById('prev'),
   nextButton: document.getElementById('next'),
-};
-
-const imageSource = new GiphyImageSource(GIPHY_PUBLIC_BETA_KEY);
-const lightboxGallery = new LightboxGallery(imageSource, elements);
+});
 
 document.addEventListener("DOMContentLoaded", () => { lightboxGallery.fetchImage(); });
