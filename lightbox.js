@@ -27,7 +27,7 @@ function fetchImage() {
         console.log('image data', imageData)
 
         const imageTitle = imageData['slug']
-        const imageURL = imageData['images']['fixed_height']['url']
+        const imageURL = imageData['images']['fixed_width']['url']
 
         onLoadImageInfo(imageTitle, imageURL)
       } else {
