@@ -4,6 +4,8 @@ const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUB
 
 const lightboxImageEl = document.getElementById('image')
 const lightboxImageTitleEl = document.getElementById('title')
+const prevButton = document.getElementById('prev')
+const nextButton = document.getElementById('next')
 
 let offset = 0
 
@@ -38,14 +40,31 @@ function fetchImage() {
 
   httpRequest.open('GET', `${GIPHY_URL}&offset=${offset}`)
   httpRequest.send()
-
-	offset += 1
 }
 
 function onClickImage(evt) {
   fetchImage()
 }
 
+function nextImage() {
+	offset += 1
+
+	fetchImage()
+}
+
+function prevImage() {
+	offset -= 1
+
+	// Don't fetch the image unless we're actually fetching a new one
+	if (offset < 0) {
+		offset = 0
+	} else {
+		fetchImage()
+	}
+}
+
 lightboxImageEl.onclick = onClickImage
+prevButton.onclick = prevImage
+nextButton.onclick = nextImage
 
 document.addEventListener("DOMContentLoaded", () => { fetchImage() })
