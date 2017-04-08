@@ -37,11 +37,7 @@ function fetchImage() {
   httpRequest.onreadystatechange = (result) => {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
       if (httpRequest.status === 200) {
-        console.log('Success', httpRequest.responseText)
-
         const imageData = JSON.parse(httpRequest.responseText)['data'][0]
-
-        console.log('image data', imageData)
 
         const imageSlug = imageData['slug']
 				const imageTitle = titleFromSlug(imageSlug)
