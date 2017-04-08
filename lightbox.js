@@ -1,7 +1,52 @@
 /* jshint esversion: 6 */
-const PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC';
-const GIPHY_PARAMS = 'limit=1&rating=g&fmt=json';
-const GIPHY_URL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${PUBLIC_BETA_KEY}&${GIPHY_PARAMS}`;
+const GIPHY_PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC';
+
+class GiphyImageSource {
+	constructor(apiKey) {
+		this.apiKey = apiKey;
+		this.params = 'limit=1&rating=g&fmt=json';
+		this.sourceURL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${this.apiKey}&${this.params}`;
+	}
+
+	static titleFromSlug(slug) {
+		let words = slug.split('-');
+
+		// In case the slug has no tags in it
+		if (words.length === 1) {
+			return words[0];
+		}
+
+		words.pop(); // Cut off the randomized trailing section
+		words = words.map((word) => { return word[0].toUpperCase() + word.slice(1); }); // Capitalize each word
+
+		return words.join(' ');
+	}
+
+	fetchImage(offset, onFetchImage) {
+		const httpRequest = new XMLHttpRequest();
+
+		httpRequest.onreadystatechange = (result) => {
+			if (httpRequest.readyState === XMLHttpRequest.DONE) {
+				if (httpRequest.status === 200) {
+					const imageData = JSON.parse(httpRequest.responseText).data[0];
+
+					const imageSlug = imageData.slug;
+					const imageTitle = GiphyImageSource.titleFromSlug(imageSlug);
+					const imageURL = imageData.images.fixed_width.url;
+
+					onFetchImage(imageTitle, imageURL);
+				} else {
+					console.log('Error', httpRequest.readyState);
+				}
+			} else {
+				console.log('Loading ...');
+			}
+		};
+
+		httpRequest.open('GET', `${this.sourceURL}&offset=${offset}`);
+		httpRequest.send();
+	}
+}
 
 class LightboxGallery {
 	constructor(imageSource, elements) {
@@ -15,29 +60,10 @@ class LightboxGallery {
 	}
 
 	fetchImage() {
-		const httpRequest = new XMLHttpRequest();
-
-		httpRequest.onreadystatechange = (result) => {
-			if (httpRequest.readyState === XMLHttpRequest.DONE) {
-				if (httpRequest.status === 200) {
-					const imageData = JSON.parse(httpRequest.responseText).data[0];
-
-					const imageSlug = imageData.slug;
-					const imageTitle = LightboxGallery.titleFromSlug(imageSlug);
-					const imageURL = imageData.images.fixed_width.url;
-
-					this.setTitle(imageTitle);
-					this.createImage(imageURL);
-				} else {
-					console.log('Error', httpRequest.readyState);
-				}
-			} else {
-				console.log('Loading ...');
-			}
-		};
-
-		httpRequest.open('GET', `${GIPHY_URL}&offset=${this.offset}`);
-		httpRequest.send();
+		this.imageSource.fetchImage(this.offset, (imageTitle, imageURL) => {
+			this.setTitle(imageTitle);
+			this.createImage(imageURL);
+		});
 	}
 
 	nextImage() {
@@ -68,20 +94,6 @@ class LightboxGallery {
 	createImage(imageURL) {
 		this.elements.lightboxImageEl.innerHTML = `<img src="${imageURL}" />`;
 	}
-
-	static titleFromSlug(slug) {
-		let words = slug.split('-');
-
-		// In case the slug has no tags in it
-		if (words.length === 1) {
-			return words[0];
-		}
-
-		words.pop(); // Cut off the randomized trailing section
-		words = words.map((word) => { return word[0].toUpperCase() + word.slice(1); }); // Capitalize each word
-
-		return words.join(' ');
-	}
 }
 
 const elements = {
@@ -91,6 +103,7 @@ const elements = {
   nextButton: document.getElementById('next'),
 };
 
-const lightboxGallery = new LightboxGallery(null, elements);
+const imageSource = new GiphyImageSource(GIPHY_PUBLIC_BETA_KEY);
+const lightboxGallery = new LightboxGallery(imageSource, elements);
 
 document.addEventListener("DOMContentLoaded", () => { lightboxGallery.fetchImage(); });
