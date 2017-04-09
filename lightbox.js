@@ -107,23 +107,42 @@ class LightboxGallery {
     this.offset = 0;
     this.elements = elements;
     this.images = [];
+    this.preloadImageCount = 0;
+    this.preloadImageMax = 5;
 
     this.elements.lightboxImageEl.onclick = () => { this.onClickImage(); };
     this.elements.prevButton.onclick = () => { this.prevImage(); };
     this.elements.nextButton.onclick = () => { this.nextImage(); };
+  }
 
-    this.prefetchImages();
+  onAllImagesPreloaded() {
+    this.elements.loadingAnimation.classList.add('hidden');
+    this.images[this.offset].classList.remove('hidden');
   }
 
   prefetchImages() {
-    Array.from({ length: 5 }, (none, index) => {
+    Array.from({ length: this.preloadImageMax }, (none, index) => {
       const image = document.createElement('img');
       image.id = `image-${index}`;
+      image.setAttribute('src', './ajax-loader.gif');
+
       this.images.push(image);
+
       this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
         image.setAttribute('data-title', imageTitle);
         image.setAttribute('src', imageURL);
-        this.elements.prefetchedImages.appendChild(image);
+        image.classList.add('hidden');
+
+        this.elements.lightboxImageEl.appendChild(image);
+
+        const gallery = this;
+
+        image.onload = () => {
+          this.preloadImageCount += 1;
+          if (this.preloadImageCount === gallery.preloadImageMax) {
+            gallery.onAllImagesPreloaded();
+          }
+        };
       });
     });
   }
@@ -172,6 +191,7 @@ const lightboxGallery = new LightboxGallery(imageSource, {
   prevButton: document.getElementById('prev'),
   nextButton: document.getElementById('next'),
   prefetchedImages: document.getElementById('prefetched-images'),
+  loadingAnimation: document.getElementById('loading-animation'),
 });
 
-document.addEventListener("DOMContentLoaded", () => { lightboxGallery.fetchImage(); });
+document.addEventListener("DOMContentLoaded", () => { lightboxGallery.prefetchImages(); });
