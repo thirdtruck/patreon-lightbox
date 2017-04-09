@@ -8,7 +8,8 @@ class ImageSource {
     this.sourceURL = 'Placeholder';
   }
 
-  fetchImage(offset, onFetchImage) {
+  onFetchImageData(data, onFetchImage) {
+    /* Pre-process the data here */
     const imageTitle = 'Placeholder';
     const imageURL = 'Placeholder';
 
@@ -25,6 +26,25 @@ class ImageSource {
     });
 
     return `${this.sourceURL}?${paramStrings.join('&')}`;
+  }
+
+  fetchImage(offset, onFetchImage) {
+    const httpRequest = new XMLHttpRequest();
+
+    httpRequest.onreadystatechange = (result) => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+          this.onFetchImageData(httpRequest.responseText, onFetchImage);
+        } else {
+          console.log('Error', httpRequest.readyState);
+        }
+      } else {
+        console.log('Loading ...');
+      }
+    };
+
+    httpRequest.open('GET', `${this.fetchURL}&offset=${offset}`);
+    httpRequest.send();
   }
 }
 
@@ -55,29 +75,14 @@ class GiphyImageSource extends ImageSource {
     return words.join(' ');
   }
 
-  fetchImage(offset, onFetchImage) {
-    const httpRequest = new XMLHttpRequest();
+  onFetchImageData(data, onFetchImage) {
+    const imageData = JSON.parse(data).data[0];
 
-    httpRequest.onreadystatechange = (result) => {
-      if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        if (httpRequest.status === 200) {
-          const imageData = JSON.parse(httpRequest.responseText).data[0];
+    const imageSlug = imageData.slug;
+    const imageTitle = GiphyImageSource.titleFromSlug(imageSlug);
+    const imageURL = imageData.images.fixed_width.url;
 
-          const imageSlug = imageData.slug;
-          const imageTitle = GiphyImageSource.titleFromSlug(imageSlug);
-          const imageURL = imageData.images.fixed_width.url;
-
-          onFetchImage(imageTitle, imageURL);
-        } else {
-          console.log('Error', httpRequest.readyState);
-        }
-      } else {
-        console.log('Loading ...');
-      }
-    };
-
-    httpRequest.open('GET', `${this.fetchURL}&offset=${offset}`);
-    httpRequest.send();
+    onFetchImage(imageTitle, imageURL);
   }
 }
 
