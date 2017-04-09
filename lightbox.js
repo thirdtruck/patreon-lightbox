@@ -45,7 +45,7 @@ class LightboxGallery {
   prefetchImages() {
     const gallery = this;
 
-    function showImageWhenAllHaveLoaded() {
+    function showCurrentImageWhenAllHaveLoaded() {
       let allLoaded = true;
 
       for (let i = 0; i < gallery.preloadedImageMax; i += 1) {
@@ -60,7 +60,7 @@ class LightboxGallery {
     }
 
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this.fetchImageAt(index, showImageWhenAllHaveLoaded);
+      this.fetchImageAt(index, showCurrentImageWhenAllHaveLoaded);
     });
   }
 
