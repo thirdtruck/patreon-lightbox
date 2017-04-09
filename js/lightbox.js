@@ -38,7 +38,7 @@ class LightboxGallery {
   showCurrentImage() {
     const gallery = this;
 
-    this.images.forEach((image) => { gallery.hideEl(image) });
+    this.images.forEach((image) => { gallery.hideEl(image); });
     this.setTitle('Loading ...');
 
     const currentImage = this.images[this.offset];
@@ -86,7 +86,7 @@ class LightboxGallery {
     this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
       image.setAttribute('data-title', imageTitle);
       image.setAttribute('src', imageURL);
-      gallery.hideEl(image)
+      gallery.hideEl(image);
 
       this.elements.lightboxImage.appendChild(image);
 
