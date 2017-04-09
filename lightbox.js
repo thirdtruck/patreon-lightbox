@@ -117,7 +117,7 @@ class LightboxGallery {
 
   showCurrentImage() {
     this.images.forEach((image) => { image.classList.add('hidden'); });
-    this.setTitle('');
+    this.setTitle('Loading ...');
 
     const currentImage = this.images[this.offset];
 
