@@ -42,25 +42,25 @@ class LightboxGallery {
     }
   }
 
-  prefetchImages() {
-    const gallery = this;
+  showCurrentImageWhenAllHaveLoaded() {
+    let allLoaded = true;
 
-    function showCurrentImageWhenAllHaveLoaded() {
-      let allLoaded = true;
-
-      for (let i = 0; i < gallery.preloadedImageMax; i += 1) {
-        if (! gallery.images[i].completed) {
-          allLoaded = false;
-        }
-      }
-
-      if (allLoaded) {
-        gallery.showCurrentImage();
+    for (let i = 0; i < this.preloadedImageMax; i += 1) {
+      if (! this.images[i].completed) {
+        allLoaded = false;
       }
     }
 
+    if (allLoaded) {
+      this.showCurrentImage();
+    }
+  }
+
+  prefetchImages() {
+    const gallery = this;
+
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this.fetchImageAt(index, showCurrentImageWhenAllHaveLoaded);
+      this.fetchImageAt(index, () => { gallery.showCurrentImageWhenAllHaveLoaded(); });
     });
   }
 
