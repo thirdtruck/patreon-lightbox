@@ -1,8 +1,10 @@
 /* jshint esversion: 6 */
 
 class LightboxGallery {
-  constructor(imageSource, lightboxEl) {
+  constructor(imageSource, lightboxEl, loadingImageURL) {
     this.imageSource = imageSource;
+    this.loadingImageURL = loadingImageURL;
+
     this.offset = 0;
     this.images = [];
     this.preloadImageMax = 5;
@@ -77,7 +79,7 @@ class LightboxGallery {
     const gallery = this;
     const image = document.createElement('img');
     image.id = `image-${index}`;
-    image.setAttribute('src', 'images/ajax-loader.gif');
+    image.setAttribute('src', this.loadingImageURL);
 
     this.images.push(image);
 
