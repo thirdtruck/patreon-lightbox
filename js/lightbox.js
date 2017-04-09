@@ -77,7 +77,7 @@ class LightboxGallery {
     const gallery = this;
     const image = document.createElement('img');
     image.id = `image-${index}`;
-    image.setAttribute('src', './ajax-loader.gif');
+    image.setAttribute('src', 'images/ajax-loader.gif');
 
     this.images.push(image);
 
