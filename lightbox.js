@@ -25,20 +25,29 @@ class LightboxGallery {
     this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
 
+  showEl(element) {
+    element.classList.remove('hidden');
+  }
+
+  hideEl(element) {
+    element.classList.add('hidden');
+  }
+
   showCurrentImage() {
-    this.images.forEach((image) => { image.classList.add('hidden'); });
+    const gallery = this;
+
+    this.images.forEach((image) => { gallery.hideEl(image) });
     this.setTitle('Loading ...');
 
     const currentImage = this.images[this.offset];
 
     if (!currentImage) {
-      const gallery = this;
-      this.elements.loadingAnimation.classList.remove('hidden');
+      this.showEl(this.elements.loadingAnimation);
       this.fetchImageAt(this.offset, (image) => { gallery.showCurrentImage(); });
     } else {
       this.setTitle(currentImage.getAttribute('data-title'));
-      this.elements.loadingAnimation.classList.add('hidden');
-      currentImage.classList.remove('hidden');
+      this.hideEl(this.elements.loadingAnimation);
+      this.showEl(currentImage);
     }
   }
 
@@ -65,6 +74,7 @@ class LightboxGallery {
   }
 
   fetchImageAt(index, onLoadImage) {
+    const gallery = this;
     const image = document.createElement('img');
     image.id = `image-${index}`;
     image.setAttribute('src', './ajax-loader.gif');
@@ -74,11 +84,9 @@ class LightboxGallery {
     this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
       image.setAttribute('data-title', imageTitle);
       image.setAttribute('src', imageURL);
-      image.classList.add('hidden');
+      gallery.hideEl(image)
 
       this.elements.lightboxImage.appendChild(image);
-
-      const gallery = this;
 
       image.onload = onLoadImage;
     });
