@@ -31,6 +31,8 @@ class ImageSource {
   }
 
   fetchImage(offset, onFetchImage) {
+    this.params.offset = offset;
+
     const httpRequest = new XMLHttpRequest();
 
     httpRequest.onreadystatechange = (result) => {
@@ -45,7 +47,7 @@ class ImageSource {
       }
     };
 
-    httpRequest.open('GET', `${this.fetchURL}&offset=${offset}`);
+    httpRequest.open('GET', this.fetchURL);
     httpRequest.send();
   }
 }
@@ -58,7 +60,7 @@ class GiphyImageSource extends ImageSource {
       rating: 'g',
       fmt: 'json',
       q: ['funny', 'cat'],
-      api_key: apiKey
+      api_key: apiKey,
     };
     this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
   }
