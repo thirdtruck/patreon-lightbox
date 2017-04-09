@@ -42,16 +42,14 @@ class LightboxGallery {
   }
 
   showCurrentImage() {
-    const gallery = this;
-
-    this.images.forEach((image) => { gallery.hideEl(image); });
+    this.images.forEach((image) => { this.hideEl(image); });
     this.setTitle('Loading ...');
 
     const currentImage = this.images[this.offset];
 
     if (!currentImage) {
       this.showEl(this.elements.loadingAnimation);
-      this.fetchImageAt(this.offset, (image) => { gallery.showCurrentImage(); });
+      this.fetchImageAt(this.offset, (image) => { this.showCurrentImage(); }); // Note the fat arrow
     } else {
       this.setTitle(currentImage.getAttribute('data-title'));
       this.hideEl(this.elements.loadingAnimation);
@@ -74,15 +72,12 @@ class LightboxGallery {
   }
 
   prefetchImages() {
-    const gallery = this;
-
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this.fetchImageAt(index, () => { gallery.showCurrentImageWhenAllHaveLoaded(); });
+      this.fetchImageAt(index, () => { this.showCurrentImageWhenAllHaveLoaded(); });
     });
   }
 
   fetchImageAt(index, onLoadImage) {
-    const gallery = this;
     const image = document.createElement('img');
     image.id = `image-${index}`;
     image.setAttribute('src', this.loadingImageURL);
@@ -92,7 +87,7 @@ class LightboxGallery {
     this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
       image.setAttribute('data-title', imageTitle);
       image.setAttribute('src', imageURL);
-      gallery.hideEl(image);
+      this.hideEl(image);
 
       this.elements.lightboxImage.appendChild(image);
 
