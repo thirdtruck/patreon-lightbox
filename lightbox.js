@@ -5,7 +5,6 @@ class LightboxGallery {
     this.imageSource = imageSource;
     this.offset = 0;
     this.images = [];
-    this.preloadImageCount = 0;
     this.preloadImageMax = 5;
 
     this.elements = {};
@@ -47,8 +46,15 @@ class LightboxGallery {
     const gallery = this;
 
     function showImageWhenAllHaveLoaded() {
-      gallery.preloadImageCount += 1;
-      if (gallery.preloadImageCount === gallery.preloadImageMax) {
+      let allLoaded = true;
+
+      for (let i = 0; i < gallery.preloadedImageMax; i += 1) {
+        if (! gallery.images[i].completed) {
+          allLoaded = false;
+        }
+      }
+
+      if (allLoaded) {
         gallery.showCurrentImage();
       }
     }
