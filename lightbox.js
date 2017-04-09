@@ -170,10 +170,11 @@ class LightboxGallery {
 
   nextImage() {
     this.offset += 1;
+    const lookAheadIndex = this.offset+this.preloadImageMax;
 
     // Perform a look-ahead image fetch so that it starts loading even before the user navigates to it
-    if (!this.images[this.offset+this.preloadImageMax]) {
-      this.fetchImageAt(this.offset+this.preloadImageMax);
+    if (!this.images[lookAheadIndex]) {
+      this.fetchImageAt(lookAheadIndex);
     }
 
     this.showCurrentImage();
