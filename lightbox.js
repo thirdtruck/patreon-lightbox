@@ -115,49 +115,59 @@ class LightboxGallery {
     this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
 
-  onAllImagesPreloaded() {
-    this.elements.loadingAnimation.classList.add('hidden');
-    this.images[this.offset].classList.remove('hidden');
+
+  showCurrentImage() {
+    this.images.forEach((image) => { image.classList.add('hidden'); });
+    this.setTitle('');
+
+    const currentImage = this.images[this.offset];
+
+    if (!currentImage) {
+      this.elements.loadingAnimation.classList.remove('hidden');
+      this.fetchImageAt(this.offset);
+    } else {
+      this.setTitle(currentImage.getAttribute('data-title'));
+
+      this.elements.loadingAnimation.classList.add('hidden');
+      currentImage.classList.remove('hidden');
+    }
   }
 
   prefetchImages() {
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      const image = document.createElement('img');
-      image.id = `image-${index}`;
-      image.setAttribute('src', './ajax-loader.gif');
-
-      this.images.push(image);
-
-      this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
-        image.setAttribute('data-title', imageTitle);
-        image.setAttribute('src', imageURL);
-        image.classList.add('hidden');
-
-        this.elements.lightboxImageEl.appendChild(image);
-
-        const gallery = this;
-
-        image.onload = () => {
-          this.preloadImageCount += 1;
-          if (this.preloadImageCount === gallery.preloadImageMax) {
-            gallery.onAllImagesPreloaded();
-          }
-        };
-      });
+      this.fetchImageAt(index);
     });
   }
 
-  fetchImage() {
-    this.imageSource.fetchImage(this.offset, (imageTitle, imageURL) => {
-      this.setTitle(imageTitle);
-      this.createImage(imageURL);
+  fetchImageAt(index) {
+    const image = document.createElement('img');
+    image.id = `image-${index}`;
+    image.setAttribute('src', './ajax-loader.gif');
+
+    this.images.push(image);
+
+    this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
+      image.setAttribute('data-title', imageTitle);
+      image.setAttribute('src', imageURL);
+      image.classList.add('hidden');
+
+      this.elements.lightboxImageEl.appendChild(image);
+
+      const gallery = this;
+
+      image.onload = () => {
+        this.preloadImageCount += 1;
+        if (this.preloadImageCount === gallery.preloadImageMax) {
+          this.showCurrentImage();
+        }
+      };
     });
   }
 
   nextImage() {
     this.offset += 1;
 
-    this.fetchImage();
+    this.showCurrentImage();
   }
 
   prevImage() {
@@ -167,7 +177,7 @@ class LightboxGallery {
     if (this.offset < 0) {
       this.offset = 0;
     } else {
-      this.fetchImage();
+      this.showCurrentImage();
     }
   }
 
