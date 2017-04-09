@@ -60,8 +60,9 @@ class ImageSource {
 }
 
 class GiphyImageSource extends ImageSource {
-  constructor(apiKey) {
+  constructor(apiKey, params={}) {
     super();
+
     this.params = {
       limit: 1,
       rating: 'g',
@@ -69,6 +70,9 @@ class GiphyImageSource extends ImageSource {
       q: ['funny', 'cat'],
       api_key: apiKey,
     };
+
+    Object.assign(this.params, params); // Override default params
+
     this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
   }
 
