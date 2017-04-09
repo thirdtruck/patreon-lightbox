@@ -16,6 +16,11 @@ body {
   background-color: #ccc;
 }
 
+#lightbox .close {
+  float: right;
+  margin-right: 3px;
+}
+
 #lightbox .title {
   margin: 5px;
 }
