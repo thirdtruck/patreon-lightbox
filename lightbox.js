@@ -1,8 +1,19 @@
 /* jshint esversion: 6 */
 const GIPHY_PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC';
 
-class GiphyImageSource {
+/* Presented as a template that future ImageSources would emulate. */
+class ImageSource {
+  fetchImage(offset, onFetchImage) {
+    const imageTitle = 'Placeholder';
+    const imageURL = 'Placeholder';
+
+    onFetchImage(offset, onFetchImage);
+  }
+}
+
+class GiphyImageSource extends ImageSource {
   constructor(apiKey) {
+    super();
     this.apiKey = apiKey;
     this.params = 'limit=1&rating=g&fmt=json';
     this.sourceURL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${this.apiKey}&${this.params}`;
