@@ -14,9 +14,14 @@ class ImageSource {
 class GiphyImageSource extends ImageSource {
   constructor(apiKey) {
     super();
-    this.apiKey = apiKey;
-    this.params = 'limit=1&rating=g&fmt=json';
-    this.sourceURL = `http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=${this.apiKey}&${this.params}`;
+    this.params = {
+      limit: 1,
+      rating: 'g',
+      fmt: 'json',
+      q: ['funny', 'cat'],
+      api_key: apiKey
+    };
+    this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
   }
 
   static titleFromSlug(slug) {
@@ -31,6 +36,18 @@ class GiphyImageSource extends ImageSource {
     words = words.map((word) => { return word[0].toUpperCase() + word.slice(1); }); // Capitalize each word
 
     return words.join(' ');
+  }
+
+  get fetchURL() {
+    const paramStrings = Object.keys(this.params).map((key) => {
+      if (Array.isArray(this.params[key])) {
+        return `${key}=${this.params[key].join('+')}`;
+      } else {
+        return `${key}=${this.params[key]}`;
+      }
+    });
+
+    return `${this.sourceURL}?${paramStrings.join('&')}`;
   }
 
   fetchImage(offset, onFetchImage) {
@@ -54,7 +71,7 @@ class GiphyImageSource extends ImageSource {
       }
     };
 
-    httpRequest.open('GET', `${this.sourceURL}&offset=${offset}`);
+    httpRequest.open('GET', `${this.fetchURL}&offset=${offset}`);
     httpRequest.send();
   }
 }
