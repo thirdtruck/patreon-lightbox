@@ -17,12 +17,14 @@ class LightboxGallery {
      * More advanced code would skip operations on non-existent elements so that devs
      * could easy opt out of features and e.g. have no title.
      */
+    this.elements.close = lightboxEl.getElementsByClassName('close')[0];
     this.elements.lightboxImage = lightboxEl.getElementsByClassName('image')[0];
     this.elements.lightboxImageTitle = lightboxEl.getElementsByClassName('title')[0];
     this.elements.prevButton = lightboxEl.getElementsByClassName('prev')[0];
     this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];
     this.elements.loadingAnimation = lightboxEl.getElementsByClassName('loading-animation')[0];
 
+    this.elements.close.onclick = () => { this.closeLightbox(); };
     this.elements.prevButton.onclick = () => { this.prevImage(); };
     this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
@@ -33,6 +35,10 @@ class LightboxGallery {
 
   hideEl(element) {
     element.classList.add('hidden');
+  }
+
+  closeLightbox() {
+    this.elements.lightbox.remove();
   }
 
   showCurrentImage() {
