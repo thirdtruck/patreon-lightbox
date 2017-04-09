@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+
 class ImageSource {
   constructor() {
     this.params = { /* source-specific URL parameters go here */ };
