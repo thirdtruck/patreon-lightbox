@@ -16,22 +16,22 @@ body {
   background-color: #ccc;
 }
 
-#title {
+#lightbox .title {
   margin: 5px;
 }
 
-#image {
+#lightbox .image {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   width: 200px;
 }
 
-#image img {
+#lightbox .image img {
   max-height: 200px;
 }
 
-#prev, #next {
+#lightbox .prev, #lightbox .next {
   width: 40px;
   margin-left: 5px;
   margin-right: 5px;
@@ -41,19 +41,19 @@ body {
   border-radius: 5px;
 }
 
-#next {
+#lightbox .next {
   float: right;
 }
 
-#prev {
+#lightbox .prev {
   float: left;
 }
 
-#image {
+#lightbox .image {
   float: left;
 }
 
-#loading-animation {
+#lightbox .loading-animation {
   position: absolute;
   top: 50px;
   left: 50%;

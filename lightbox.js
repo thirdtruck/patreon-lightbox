@@ -102,13 +102,26 @@ class GiphyImageSource extends ImageSource {
 }
 
 class LightboxGallery {
-  constructor(imageSource, elements) {
+  constructor(imageSource, lightboxEl) {
     this.imageSource = imageSource;
     this.offset = 0;
-    this.elements = elements;
     this.images = [];
     this.preloadImageCount = 0;
     this.preloadImageMax = 5;
+
+    this.elements = {};
+    this.elements.lightbox = lightboxEl;
+
+    /* We assume that each of the child elements exists and that there is only one for
+     * the sake of convenience.
+     * More advanced code would skip operations on non-existent elements so that devs
+     * could easy opt out of features and e.g. have no title.
+     */
+    this.elements.lightboxImage = lightboxEl.getElementsByClassName('image')[0];
+    this.elements.lightboxImageTitle = lightboxEl.getElementsByClassName('title')[0];
+    this.elements.prevButton = lightboxEl.getElementsByClassName('prev')[0];
+    this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];
+    this.elements.loadingAnimation = lightboxEl.getElementsByClassName('loading-animation')[0];
 
     this.elements.prevButton.onclick = () => { this.prevImage(); };
     this.elements.nextButton.onclick = () => { this.nextImage(); };
@@ -159,7 +172,7 @@ class LightboxGallery {
       image.setAttribute('src', imageURL);
       image.classList.add('hidden');
 
-      this.elements.lightboxImageEl.appendChild(image);
+      this.elements.lightboxImage.appendChild(image);
 
       const gallery = this;
 
@@ -191,18 +204,11 @@ class LightboxGallery {
   }
 
   setTitle(title) {
-    this.elements.lightboxImageTitleEl.innerText = title;
+    this.elements.lightboxImageTitle.innerText = title;
   }
 }
 
 const imageSource = new GiphyImageSource(GIPHY_PUBLIC_BETA_KEY);
-const lightboxGallery = new LightboxGallery(imageSource, {
-  lightboxImageEl: document.getElementById('image'),
-  lightboxImageTitleEl: document.getElementById('title'),
-  prevButton: document.getElementById('prev'),
-  nextButton: document.getElementById('next'),
-  prefetchedImages: document.getElementById('prefetched-images'),
-  loadingAnimation: document.getElementById('loading-animation'),
-});
+const lightboxGallery = new LightboxGallery(imageSource, document.getElementById('lightbox'));
 
 document.addEventListener("DOMContentLoaded", () => { lightboxGallery.prefetchImages(); });
