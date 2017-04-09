@@ -190,10 +190,6 @@ class LightboxGallery {
   setTitle(title) {
     this.elements.lightboxImageTitleEl.innerText = title;
   }
-
-  createImage(imageURL) {
-    this.elements.lightboxImageEl.innerHTML = `<img src="${imageURL}" />`;
-  }
 }
 
 const imageSource = new GiphyImageSource(GIPHY_PUBLIC_BETA_KEY);
