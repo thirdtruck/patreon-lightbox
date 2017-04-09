@@ -134,15 +134,17 @@ class LightboxGallery {
   }
 
   prefetchImages() {
+    const gallery = this;
+
+    function showImageWhenAllHaveLoaded() {
+      gallery.preloadImageCount += 1;
+      if (gallery.preloadImageCount === gallery.preloadImageMax) {
+        gallery.showCurrentImage();
+      }
+    }
+
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      const gallery = this;
-      this.fetchImageAt(index, (image) => {
-        // TODO: Replace counter with check for 'done' status on images, for when we start fetching more
-        gallery.preloadImageCount += 1;
-        if (gallery.preloadImageCount === gallery.preloadImageMax) {
-          gallery.showCurrentImage();
-        }
-      });
+      this.fetchImageAt(index, showImageWhenAllHaveLoaded);
     });
   }
 
