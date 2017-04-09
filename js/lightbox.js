@@ -38,7 +38,7 @@ class LightboxGallery {
   }
 
   closeLightbox() {
-    this.elements.lightbox.remove();
+    this.hideEl(this.elements.lightbox);
   }
 
   showCurrentImage() {
