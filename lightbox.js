@@ -135,11 +135,17 @@ class LightboxGallery {
 
   prefetchImages() {
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this.fetchImageAt(index);
+      const gallery = this;
+      this.fetchImageAt(index, (image) => {
+        gallery.preloadImageCount += 1;
+        if (gallery.preloadImageCount === gallery.preloadImageMax) {
+          gallery.showCurrentImage();
+        }
+      });
     });
   }
 
-  fetchImageAt(index) {
+  fetchImageAt(index, onLoadImage) {
     const image = document.createElement('img');
     image.id = `image-${index}`;
     image.setAttribute('src', './ajax-loader.gif');
@@ -155,12 +161,7 @@ class LightboxGallery {
 
       const gallery = this;
 
-      image.onload = () => {
-        this.preloadImageCount += 1;
-        if (this.preloadImageCount === gallery.preloadImageMax) {
-          this.showCurrentImage();
-        }
-      };
+      image.onload = onLoadImage;
     });
   }
 
