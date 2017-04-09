@@ -4,16 +4,18 @@ const GIPHY_PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC';
 /* Presented as a template that future ImageSources would emulate. */
 class ImageSource {
   constructor() {
-    this.params = {};
+    this.params = { /* source-specific URL parameters go here */ };
     this.sourceURL = 'Placeholder';
   }
 
+  /* Subclasses overwrite this method to extract a title and image URL from their source's raw data,
+   * which they then pass to the callback.
+   */
   onFetchImageData(data, onFetchImage) {
-    /* Pre-process the data here */
     const imageTitle = 'Placeholder';
     const imageURL = 'Placeholder';
 
-    onFetchImage(offset, onFetchImage);
+    onFetchImage(imageTitle, imageURL);
   }
 
   get fetchURL() {
