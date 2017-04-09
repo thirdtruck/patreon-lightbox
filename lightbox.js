@@ -19,7 +19,7 @@ class ImageSource {
   }
 
   get fetchURL() {
-    const paramStrings = Object.keys(this.params).map((key) => {
+    let paramStrings = Object.keys(this.params).map((key) => {
       if (Array.isArray(this.params[key])) {
         return `${key}=${this.params[key].join('+')}`;
       } else {
@@ -27,11 +27,18 @@ class ImageSource {
       }
     });
 
+    paramStrings.push(this.offsetParam);
+
     return `${this.sourceURL}?${paramStrings.join('&')}`;
   }
 
+  /* Subclasses may have to override this */
+  get offsetParam() {
+    return `offset=${this.offset}`;
+  }
+
   fetchImage(offset, onFetchImage) {
-    this.params.offset = offset;
+    this.offset = offset;
 
     const httpRequest = new XMLHttpRequest();
 
