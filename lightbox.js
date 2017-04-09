@@ -137,6 +137,7 @@ class LightboxGallery {
     Array.from({ length: this.preloadImageMax }, (none, index) => {
       const gallery = this;
       this.fetchImageAt(index, (image) => {
+        // TODO: Replace counter with check for 'done' status on images, for when we start fetching more
         gallery.preloadImageCount += 1;
         if (gallery.preloadImageCount === gallery.preloadImageMax) {
           gallery.showCurrentImage();
