@@ -33,12 +33,11 @@ class LightboxGallery {
     const currentImage = this.images[this.offset];
 
     if (!currentImage) {
-      this.elements.loadingAnimation.classList.remove('hidden');
       const gallery = this;
+      this.elements.loadingAnimation.classList.remove('hidden');
       this.fetchImageAt(this.offset, (image) => { gallery.showCurrentImage(); });
     } else {
       this.setTitle(currentImage.getAttribute('data-title'));
-
       this.elements.loadingAnimation.classList.add('hidden');
       currentImage.classList.remove('hidden');
     }
