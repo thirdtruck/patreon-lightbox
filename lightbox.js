@@ -3,11 +3,28 @@ const GIPHY_PUBLIC_BETA_KEY = 'dc6zaTOxFJmzC';
 
 /* Presented as a template that future ImageSources would emulate. */
 class ImageSource {
+  constructor() {
+    this.params = {};
+    this.sourceURL = 'Placeholder';
+  }
+
   fetchImage(offset, onFetchImage) {
     const imageTitle = 'Placeholder';
     const imageURL = 'Placeholder';
 
     onFetchImage(offset, onFetchImage);
+  }
+
+  get fetchURL() {
+    const paramStrings = Object.keys(this.params).map((key) => {
+      if (Array.isArray(this.params[key])) {
+        return `${key}=${this.params[key].join('+')}`;
+      } else {
+        return `${key}=${this.params[key]}`;
+      }
+    });
+
+    return `${this.sourceURL}?${paramStrings.join('&')}`;
   }
 }
 
@@ -36,18 +53,6 @@ class GiphyImageSource extends ImageSource {
     words = words.map((word) => { return word[0].toUpperCase() + word.slice(1); }); // Capitalize each word
 
     return words.join(' ');
-  }
-
-  get fetchURL() {
-    const paramStrings = Object.keys(this.params).map((key) => {
-      if (Array.isArray(this.params[key])) {
-        return `${key}=${this.params[key].join('+')}`;
-      } else {
-        return `${key}=${this.params[key]}`;
-      }
-    });
-
-    return `${this.sourceURL}?${paramStrings.join('&')}`;
   }
 
   fetchImage(offset, onFetchImage) {
