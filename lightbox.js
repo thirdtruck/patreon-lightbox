@@ -110,7 +110,6 @@ class LightboxGallery {
     this.preloadImageCount = 0;
     this.preloadImageMax = 5;
 
-    this.elements.lightboxImageEl.onclick = () => { this.onClickImage(); };
     this.elements.prevButton.onclick = () => { this.prevImage(); };
     this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
@@ -181,10 +180,6 @@ class LightboxGallery {
     } else {
       this.showCurrentImage();
     }
-  }
-
-  onClickImage(evt) {
-    this.fetchImage();
   }
 
   setTitle(title) {
