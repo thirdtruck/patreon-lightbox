@@ -114,7 +114,6 @@ class LightboxGallery {
     this.elements.nextButton.onclick = () => { this.nextImage(); };
   }
 
-
   showCurrentImage() {
     this.images.forEach((image) => { image.classList.add('hidden'); });
     this.setTitle('Loading ...');
