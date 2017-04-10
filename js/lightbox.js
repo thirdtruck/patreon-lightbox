@@ -88,6 +88,7 @@ class LightboxGallery {
   fetchImageAt(index, onLoadImage) {
     const image = document.createElement('img');
     image.id = `image-${index}`;
+    image.classList.add('gallery-image');
     /* A more advanced lightbox might show/hide the original loading image instead of making it
      * the initial image source, but this is an adequate compromise for now.
      */

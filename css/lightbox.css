@@ -32,11 +32,8 @@
   width: 200px;
 }
 
-#lightbox .image img {
+#lightbox .image .gallery-image {
   box-shadow: 0px 0px 15px #999;
-}
-
-#lightbox .image img {
   max-height: 200px;
 }
 
