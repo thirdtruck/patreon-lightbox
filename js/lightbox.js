@@ -93,7 +93,7 @@ class LightboxGallery {
      */
     image.setAttribute('src', this.loadingImageURL);
 
-    this.images.push(image);
+    this.images[index] = image;
 
     this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
       image.setAttribute('data-title', imageTitle);
