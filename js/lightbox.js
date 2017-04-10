@@ -38,7 +38,6 @@ class LightboxGallery {
   }
 
   closeLightbox() {
-    console.log(this.elements.lightbox);
     this.hideEl(this.elements.lightbox);
   }
 
