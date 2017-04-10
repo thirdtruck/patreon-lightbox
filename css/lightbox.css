@@ -10,6 +10,7 @@
   text-align: center;
   background-color: #ccc;
   box-shadow: 10px 10px 10px black;
+  border-radius: 5px;
 }
 
 #lightbox .close {
