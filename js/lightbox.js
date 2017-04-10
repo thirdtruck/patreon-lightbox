@@ -33,20 +33,69 @@ class LightboxGallery {
     this.elements.nextButton.addEventListener('click', () => { this.nextImage(); });
   }
 
+  /* Public Methods */
+
+  /* Not all of these public methods are utilized in the example usage code but I've made use of such
+   * methods in enough real-world lightbox examples to know they will be useful sooner rather than later.
+   */
+
+  openLightbox() {
+    /* A more advanced lightbox might create all of its child elements from scratch when initially opened. */
+    this._showEl(this.elements.lightbox);
+  }
+
+  closeLightbox() {
+    /* A more advanced lightbox might delete (or at least detach) all of its child elements when closed in 
+     * order to reduce its footprint
+     */
+    this._hideEl(this.elements.lightbox);
+  }
+
+  prefetchImages() {
+    Array.from({ length: this.preloadImageMax }, (none, index) => {
+      this._fetchImageAt(index, () => { this._showCurrentImageWhenAllHaveLoaded(); });
+    });
+  }
+
+  nextImage() {
+    this.offset += 1;
+    const lookAheadIndex = this.offset+this.preloadImageMax;
+
+    // Perform a look-ahead image fetch so that it starts loading even before the user navigates to it
+    if (!this.images[lookAheadIndex]) {
+      this._fetchImageAt(lookAheadIndex);
+    }
+
+    this._showCurrentImage();
+  }
+
+  prevImage() {
+    this.offset -= 1;
+
+    // Don't fetch the image unless we're actually fetching a new one
+    if (this.offset < 0) {
+      this.offset = 0;
+    } else {
+      this._showCurrentImage();
+    }
+  }
+
+  setTitle(title) {
+    this.elements.lightboxImageTitle.textContent = title;
+  }
+
+  /* Private Methods */
+
+  /* We could use function closure to create genuinely private methods if necessary,
+   * but this naming convention suffices.
+   */
+
   _showEl(element) {
     element.classList.remove('hidden');
   }
 
   _hideEl(element) {
     element.classList.add('hidden');
-  }
-
-  openLightbox() {
-    this._showEl(this.elements.lightbox);
-  }
-
-  closeLightbox() {
-    this._hideEl(this.elements.lightbox);
   }
 
   _showCurrentImage() {
@@ -79,12 +128,6 @@ class LightboxGallery {
     }
   }
 
-  prefetchImages() {
-    Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this._fetchImageAt(index, () => { this._showCurrentImageWhenAllHaveLoaded(); });
-    });
-  }
-
   _fetchImageAt(index, onLoadImage) {
     const image = document.createElement('img');
     image.id = `image-${index}`;
@@ -105,32 +148,5 @@ class LightboxGallery {
 
       image.onload = onLoadImage;
     });
-  }
-
-  nextImage() {
-    this.offset += 1;
-    const lookAheadIndex = this.offset+this.preloadImageMax;
-
-    // Perform a look-ahead image fetch so that it starts loading even before the user navigates to it
-    if (!this.images[lookAheadIndex]) {
-      this._fetchImageAt(lookAheadIndex);
-    }
-
-    this._showCurrentImage();
-  }
-
-  prevImage() {
-    this.offset -= 1;
-
-    // Don't fetch the image unless we're actually fetching a new one
-    if (this.offset < 0) {
-      this.offset = 0;
-    } else {
-      this._showCurrentImage();
-    }
-  }
-
-  setTitle(title) {
-    this.elements.lightboxImageTitle.textContent = title;
   }
 }

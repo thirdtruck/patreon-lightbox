@@ -35,6 +35,11 @@ class ImageSource {
     onFetchImage(imageTitle, imageURL);
   }
 
+  /* Subclasses may have to override this */
+  get offsetParam() {
+    return `offset=${this.offset}`;
+  }
+
   get _fetchURL() {
     let paramStrings = Object.keys(this.params).map((key) => {
       if (Array.isArray(this.params[key])) {
@@ -48,12 +53,6 @@ class ImageSource {
 
     return `${this.sourceURL}?${paramStrings.join('&')}`;
   }
-
-  /* Subclasses may have to override this */
-  get offsetParam() {
-    return `offset=${this.offset}`;
-  }
-
 }
 
 class GiphyImageSource extends ImageSource {
@@ -73,6 +72,16 @@ class GiphyImageSource extends ImageSource {
     Object.assign(this.params, params); // Override default params
   }
 
+  onFetchImageData(data, onFetchImage) {
+    const imageData = JSON.parse(data).data[0];
+
+    const imageSlug = imageData.slug;
+    const imageTitle = GiphyImageSource._titleFromSlug(imageSlug);
+    const imageURL = imageData.images.fixed_width.url;
+
+    onFetchImage(imageTitle, imageURL);
+  }
+
   static _titleFromSlug(slug) {
     let words = slug.split('-');
 
@@ -85,15 +94,5 @@ class GiphyImageSource extends ImageSource {
     words = words.map((word) => { return word[0].toUpperCase() + word.slice(1); }); // Capitalize each word
 
     return words.join(' ');
-  }
-
-  onFetchImageData(data, onFetchImage) {
-    const imageData = JSON.parse(data).data[0];
-
-    const imageSlug = imageData.slug;
-    const imageTitle = GiphyImageSource._titleFromSlug(imageSlug);
-    const imageURL = imageData.images.fixed_width.url;
-
-    onFetchImage(imageTitle, imageURL);
   }
 }
