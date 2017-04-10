@@ -37,6 +37,10 @@ class LightboxGallery {
     element.classList.add('hidden');
   }
 
+  openLightbox() {
+    this.showEl(this.elements.lightbox);
+  }
+
   closeLightbox() {
     this.hideEl(this.elements.lightbox);
   }
