@@ -2,7 +2,7 @@
 
 ## Usage
 
-1. Include an element in your page that contains elements with `title`, `close`, `prev`, `next`, `image`, and `loading-animation` as their classes.
+1. Include an element in your page that contains elements with `title`, `close`, `prev`, `next`, `images`, and `loading-animation` as their classes.
 2. Include [`css/lightbox.css`](css/lightbox.css) in your page.
 3. Include [`js/image-sources.js`](js/image-sources.js) and then [`js/lightbox.js`](js/lightbox.js) (in that order) in your page.
 4. Create an `ImageSource` object (e.g. `GiphyImageSource`) in your JavaScript.

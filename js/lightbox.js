@@ -21,7 +21,7 @@ class LightboxGallery {
      */
     const lightboxEl = this.elements.lightbox;
     this.elements.close = lightboxEl.getElementsByClassName('close')[0];
-    this.elements.lightboxImage = lightboxEl.getElementsByClassName('image')[0];
+    this.elements.lightboxImage = lightboxEl.getElementsByClassName('images')[0];
     this.elements.lightboxImageTitle = lightboxEl.getElementsByClassName('title')[0];
     this.elements.prevButton = lightboxEl.getElementsByClassName('prev')[0];
     this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];

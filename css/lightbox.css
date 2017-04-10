@@ -25,14 +25,14 @@
   margin: 5px;
 }
 
-#lightbox .image {
+#lightbox .images {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   width: 200px;
 }
 
-#lightbox .image .gallery-image {
+#lightbox .images .gallery-image {
   box-shadow: 0px 0px 15px #999;
   max-height: 200px;
 }
@@ -55,7 +55,7 @@
   float: left;
 }
 
-#lightbox .image {
+#lightbox .images {
   float: left;
 }
 
