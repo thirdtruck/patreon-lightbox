@@ -6,9 +6,27 @@ class ImageSource {
     this.sourceURL = 'Placeholder';
   }
 
-  /* Subclasses overwrite this method to extract a title and image URL from their source's raw data,
-   * which they then pass to the callback.
-   */
+  fetchImage(offset, onFetchImage) {
+    this.offset = offset;
+
+    const httpRequest = new XMLHttpRequest();
+
+    httpRequest.onreadystatechange = (result) => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+          this.onFetchImageData(httpRequest.responseText, onFetchImage);
+        } else {
+          console.log('Error', httpRequest.readyState);
+        }
+      } else {
+        console.log('Loading ...');
+      }
+    };
+
+    httpRequest.open('GET', this.fetchURL);
+    httpRequest.send();
+  }
+
   onFetchImageData(data, onFetchImage) {
     const imageTitle = 'Placeholder';
     const imageURL = 'Placeholder';
@@ -35,26 +53,6 @@ class ImageSource {
     return `offset=${this.offset}`;
   }
 
-  fetchImage(offset, onFetchImage) {
-    this.offset = offset;
-
-    const httpRequest = new XMLHttpRequest();
-
-    httpRequest.onreadystatechange = (result) => {
-      if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        if (httpRequest.status === 200) {
-          this.onFetchImageData(httpRequest.responseText, onFetchImage);
-        } else {
-          console.log('Error', httpRequest.readyState);
-        }
-      } else {
-        console.log('Loading ...');
-      }
-    };
-
-    httpRequest.open('GET', this.fetchURL);
-    httpRequest.send();
-  }
 }
 
 class GiphyImageSource extends ImageSource {
