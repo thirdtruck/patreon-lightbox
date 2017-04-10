@@ -23,7 +23,7 @@ class ImageSource {
       }
     };
 
-    httpRequest.open('GET', this.fetchURL);
+    httpRequest.open('GET', this._fetchURL);
     httpRequest.send();
   }
 
@@ -35,7 +35,7 @@ class ImageSource {
     onFetchImage(imageTitle, imageURL);
   }
 
-  get fetchURL() {
+  get _fetchURL() {
     let paramStrings = Object.keys(this.params).map((key) => {
       if (Array.isArray(this.params[key])) {
         return `${key}=${this.params[key].join('+')}`;
@@ -73,7 +73,7 @@ class GiphyImageSource extends ImageSource {
     Object.assign(this.params, params); // Override default params
   }
 
-  static titleFromSlug(slug) {
+  static _titleFromSlug(slug) {
     let words = slug.split('-');
 
     // In case the slug has no tags in it
@@ -91,7 +91,7 @@ class GiphyImageSource extends ImageSource {
     const imageData = JSON.parse(data).data[0];
 
     const imageSlug = imageData.slug;
-    const imageTitle = GiphyImageSource.titleFromSlug(imageSlug);
+    const imageTitle = GiphyImageSource._titleFromSlug(imageSlug);
     const imageURL = imageData.images.fixed_width.url;
 
     onFetchImage(imageTitle, imageURL);
