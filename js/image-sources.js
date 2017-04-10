@@ -60,7 +60,7 @@ class GiphyImageSource extends ImageSource {
   constructor(apiKey, params={}) {
     super();
 
-    this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
+    this.sourceURL = '//api.giphy.com/v1/gifs/search';
 
     this.params = {
       limit: 1,
