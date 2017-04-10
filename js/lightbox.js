@@ -33,39 +33,39 @@ class LightboxGallery {
     this.elements.nextButton.addEventListener('click', () => { this.nextImage(); });
   }
 
-  showEl(element) {
+  _showEl(element) {
     element.classList.remove('hidden');
   }
 
-  hideEl(element) {
+  _hideEl(element) {
     element.classList.add('hidden');
   }
 
   openLightbox() {
-    this.showEl(this.elements.lightbox);
+    this._showEl(this.elements.lightbox);
   }
 
   closeLightbox() {
-    this.hideEl(this.elements.lightbox);
+    this._hideEl(this.elements.lightbox);
   }
 
-  showCurrentImage() {
-    this.images.forEach((image) => { this.hideEl(image); });
+  _showCurrentImage() {
+    this.images.forEach((image) => { this._hideEl(image); });
     this.setTitle('Loading ...');
 
     const currentImage = this.images[this.offset];
 
     if (!currentImage) {
-      this.showEl(this.elements.loadingAnimation);
-      this.fetchImageAt(this.offset, (image) => { this.showCurrentImage(); });
+      this._showEl(this.elements.loadingAnimation);
+      this._fetchImageAt(this.offset, (image) => { this._showCurrentImage(); });
     } else {
       this.setTitle(currentImage.getAttribute('data-title'));
-      this.hideEl(this.elements.loadingAnimation);
-      this.showEl(currentImage);
+      this._hideEl(this.elements.loadingAnimation);
+      this._showEl(currentImage);
     }
   }
 
-  showCurrentImageWhenAllHaveLoaded() {
+  _showCurrentImageWhenAllHaveLoaded() {
     let allLoaded = true;
 
     for (let i = 0; i < this.preloadedImageMax; i += 1) {
@@ -75,17 +75,17 @@ class LightboxGallery {
     }
 
     if (allLoaded) {
-      this.showCurrentImage();
+      this._showCurrentImage();
     }
   }
 
   prefetchImages() {
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this.fetchImageAt(index, () => { this.showCurrentImageWhenAllHaveLoaded(); });
+      this._fetchImageAt(index, () => { this._showCurrentImageWhenAllHaveLoaded(); });
     });
   }
 
-  fetchImageAt(index, onLoadImage) {
+  _fetchImageAt(index, onLoadImage) {
     const image = document.createElement('img');
     image.id = `image-${index}`;
     image.classList.add('gallery-image');
@@ -99,7 +99,7 @@ class LightboxGallery {
     this.imageSource.fetchImage(index, (imageTitle, imageURL) => {
       image.setAttribute('data-title', imageTitle);
       image.setAttribute('src', imageURL);
-      this.hideEl(image);
+      this._hideEl(image);
 
       this.elements.lightboxImage.appendChild(image);
 
@@ -113,10 +113,10 @@ class LightboxGallery {
 
     // Perform a look-ahead image fetch so that it starts loading even before the user navigates to it
     if (!this.images[lookAheadIndex]) {
-      this.fetchImageAt(lookAheadIndex);
+      this._fetchImageAt(lookAheadIndex);
     }
 
-    this.showCurrentImage();
+    this._showCurrentImage();
   }
 
   prevImage() {
@@ -126,7 +126,7 @@ class LightboxGallery {
     if (this.offset < 0) {
       this.offset = 0;
     } else {
-      this.showCurrentImage();
+      this._showCurrentImage();
     }
   }
 
