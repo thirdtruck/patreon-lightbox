@@ -5,8 +5,8 @@ class LightboxGallery {
     this.elements = {};
     this.offset = 0;
     this.images = [];
-    this.preloadImageMax = 5;
 
+    this.preloadImageMax = params.preloadImageMax || 5;
     this.imageSource = params.imageSource;
     this.loadingImageURL = params.loadingImageURL || 'images/ajax-loader.gif';
     this.elements.lightbox = params.lightboxEl;
