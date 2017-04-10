@@ -27,6 +27,7 @@ class ImageSource {
     httpRequest.send();
   }
 
+  /* Overridden by subclasses to handle their source's particular data format */
   onFetchImageData(data, onFetchImage) {
     const imageTitle = 'Placeholder';
     const imageURL = 'Placeholder';
