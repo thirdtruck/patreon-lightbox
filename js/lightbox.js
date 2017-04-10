@@ -15,6 +15,9 @@ class LightboxGallery {
      * the sake of convenience.
      * More advanced code would skip operations on non-existent elements so that devs
      * could easy opt out of features and e.g. have no title.
+     *
+     * If this was intended for production, we might generate all of the child elements
+     * ourselves in order to simplify the process of including the lightbox in a page.
      */
     const lightboxEl = this.elements.lightbox;
     this.elements.close = lightboxEl.getElementsByClassName('close')[0];
@@ -24,6 +27,7 @@ class LightboxGallery {
     this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];
     this.elements.loadingAnimation = lightboxEl.getElementsByClassName('loading-animation')[0];
 
+    // Note the fat arrows here and elsewhere and how they preserve the current scope of `this`.
     this.elements.close.addEventListener('click', () => { this.closeLightbox(); });
     this.elements.prevButton.addEventListener('click', () => { this.prevImage(); });
     this.elements.nextButton.addEventListener('click', () => { this.nextImage(); });
@@ -53,7 +57,7 @@ class LightboxGallery {
 
     if (!currentImage) {
       this.showEl(this.elements.loadingAnimation);
-      this.fetchImageAt(this.offset, (image) => { this.showCurrentImage(); }); // Note the fat arrow
+      this.fetchImageAt(this.offset, (image) => { this.showCurrentImage(); });
     } else {
       this.setTitle(currentImage.getAttribute('data-title'));
       this.hideEl(this.elements.loadingAnimation);
@@ -84,6 +88,9 @@ class LightboxGallery {
   fetchImageAt(index, onLoadImage) {
     const image = document.createElement('img');
     image.id = `image-${index}`;
+    /* A more advanced lightbox might show/hide the original loading image instead of making it
+     * the initial image source, but this is an adequate compromise for now.
+     */
     image.setAttribute('src', this.loadingImageURL);
 
     this.images.push(image);
