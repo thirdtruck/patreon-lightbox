@@ -1,3 +1,8 @@
+/* This CSS is far more pixel-specific and far less responsive than I would like
+ * but CSS has always been my weakest web development area and upgrading to a more
+ * adaptive layout would be time-prohibitive.
+ */
+
 #lightbox .content {
   position: absolute;
   margin: auto;
