@@ -58,6 +58,8 @@ class ImageSource {
 
 class GiphyImageSource extends ImageSource {
   constructor(apiKey, params={}) {
+    this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
+
     super();
 
     this.params = {
@@ -69,8 +71,6 @@ class GiphyImageSource extends ImageSource {
     };
 
     Object.assign(this.params, params); // Override default params
-
-    this.sourceURL = 'http://api.giphy.com/v1/gifs/search';
   }
 
   static titleFromSlug(slug) {
