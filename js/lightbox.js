@@ -27,6 +27,9 @@ class LightboxGallery {
     this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];
     this.elements.loadingAnimation = lightboxEl.getElementsByClassName('loading-animation')[0];
 
+    this._disableEl(this.elements.prevButton);
+    this._disableEl(this.elements.nextButton);
+
     // Note the fat arrows here and elsewhere and how they preserve the current scope of `this`.
     this.elements.close.addEventListener('click', () => { this.closeLightbox(); });
     this.elements.prevButton.addEventListener('click', () => { this.prevImage(); });
@@ -53,7 +56,7 @@ class LightboxGallery {
 
   prefetchImages() {
     Array.from({ length: this.preloadImageMax }, (none, index) => {
-      this._fetchImageAt(index, () => { this._showCurrentImageWhenAllHaveLoaded(); });
+      this._fetchImageAt(index, () => { this._showCurrentImageWhenAllHaveLoaded(); this._updateButtons(); });
     });
   }
 
@@ -67,6 +70,7 @@ class LightboxGallery {
     }
 
     this._showCurrentImage();
+    this._updateButtons();
   }
 
   prevImage() {
@@ -78,6 +82,8 @@ class LightboxGallery {
     } else {
       this._showCurrentImage();
     }
+
+    this._updateButtons();
   }
 
   setTitle(title) {
@@ -96,6 +102,14 @@ class LightboxGallery {
 
   _hideEl(element) {
     element.classList.add('hidden');
+  }
+
+  _disableEl(element) {
+    element.setAttribute('disabled', 'disabled');
+  }
+
+  _enableEl(element) {
+    element.removeAttribute('disabled');
   }
 
   _showCurrentImage() {
@@ -125,6 +139,20 @@ class LightboxGallery {
 
     if (allLoaded) {
       this._showCurrentImage();
+    }
+  }
+
+  _updateButtons() {
+    /* A more advanced lightbox might e.g. watch for 404s when prefetching images and disable
+     * the next button before the user would navigate past the assumed last image. For now,
+     * we'll just assume there's an unlimited number of images.
+     */
+    if (this.offset === 0) {
+      this._disableEl(this.elements.prevButton);
+      this._enableEl(this.elements.nextButton);
+    } else {
+      this._enableEl(this.elements.prevButton);
+      this._enableEl(this.elements.nextButton);
     }
   }
 
