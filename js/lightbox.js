@@ -131,6 +131,6 @@ class LightboxGallery {
   }
 
   setTitle(title) {
-    this.elements.lightboxImageTitle.innerText = title;
+    this.elements.lightboxImageTitle.textContent = title;
   }
 }
