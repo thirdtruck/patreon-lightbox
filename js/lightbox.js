@@ -1,22 +1,22 @@
 /* jshint esversion: 6 */
 
 class LightboxGallery {
-  constructor(imageSource, lightboxEl, loadingImageURL) {
-    this.imageSource = imageSource;
-    this.loadingImageURL = loadingImageURL;
-
+  constructor(params) {
+    this.elements = {};
     this.offset = 0;
     this.images = [];
     this.preloadImageMax = 5;
 
-    this.elements = {};
-    this.elements.lightbox = lightboxEl;
+    this.imageSource = params.imageSource;
+    this.loadingImageURL = params.loadingImageURL || 'images/ajax-loader.gif';
+    this.elements.lightbox = params.lightboxEl;
 
     /* We assume that each of the child elements exists and that there is only one for
      * the sake of convenience.
      * More advanced code would skip operations on non-existent elements so that devs
      * could easy opt out of features and e.g. have no title.
      */
+    const lightboxEl = this.elements.lightbox;
     this.elements.close = lightboxEl.getElementsByClassName('close')[0];
     this.elements.lightboxImage = lightboxEl.getElementsByClassName('image')[0];
     this.elements.lightboxImageTitle = lightboxEl.getElementsByClassName('title')[0];
