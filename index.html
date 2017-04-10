@@ -11,24 +11,28 @@
   <!-- Null favicon; to prevent unnecessary 404s -->
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/lightbox.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
 <body>
   <div id="lightbox">
-    <div class="close">[X]</div>
-    <div class="title">Loading ...</div>
-    <div>
-      <button class="prev">&lt;&lt;</button>
-      <div class="image">
-        <img class="loading-animation" src="images/ajax-loader.gif" />
+    <div class="background"></div>
+    <div class="content">
+      <div class="close">[X]</div>
+      <div class="title">Loading ...</div>
+      <div>
+        <button class="prev">&lt;&lt;</button>
+        <div class="image">
+          <img class="loading-animation" src="images/ajax-loader.gif" />
+        </div>
+        <button class="next">&gt;&gt;</button>
+        <div style="clear: both;"></div>
       </div>
-      <button class="next">&gt;&gt;</button>
-      <div style="clear: both;"></div>
     </div>
+    <div style="clear: both;"></div>
   </div>
-  <div style="clear: both;"></div>
 
   <p>Example content that will be obscured by the lightbox</p>
 
