@@ -9,6 +9,7 @@
   max-height: 240px;
   text-align: center;
   background-color: #ccc;
+  box-shadow: 10px 10px 10px black;
 }
 
 #lightbox .close {
