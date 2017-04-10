@@ -105,10 +105,12 @@ class LightboxGallery {
   }
 
   _disableEl(element) {
+    element.classList.add('disabled');
     element.setAttribute('disabled', 'disabled');
   }
 
   _enableEl(element) {
+    element.classList.remove('disabled');
     element.removeAttribute('disabled');
   }
 
