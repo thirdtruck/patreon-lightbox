@@ -24,9 +24,9 @@ class LightboxGallery {
     this.elements.nextButton = lightboxEl.getElementsByClassName('next')[0];
     this.elements.loadingAnimation = lightboxEl.getElementsByClassName('loading-animation')[0];
 
-    this.elements.close.onclick = () => { this.closeLightbox(); };
-    this.elements.prevButton.onclick = () => { this.prevImage(); };
-    this.elements.nextButton.onclick = () => { this.nextImage(); };
+    this.elements.close.addEventListener('click', () => { this.closeLightbox(); });
+    this.elements.prevButton.addEventListener('click', () => { this.prevImage(); });
+    this.elements.nextButton.addEventListener('click', () => { this.nextImage(); });
   }
 
   showEl(element) {
